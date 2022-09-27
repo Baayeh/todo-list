@@ -1,6 +1,6 @@
 ![](https://img.shields.io/badge/Microverse-blueviolet)
 
-# books-with-es6
+# To Do List App
  Todo List with webpack
 
 > We created this project using ES6 concepts
