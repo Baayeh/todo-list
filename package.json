@@ -5,8 +5,7 @@
   "private": true,
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "webpack --config webpack.config.js",
-    "watch": "webpack --watch",
+    "build": "webpack",
     "start": "webpack serve --open"
   },
   "keywords": [],
