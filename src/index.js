@@ -35,7 +35,8 @@ const createElement = (todo) => {
 
 // Display the list in the browser
 const displayTodoList = () => {
-  todos.forEach((todo) => {
+  const sortedTodos = todos.sort((a, b) => a.index - b.index);
+  sortedTodos.forEach((todo) => {
     createElement(todo);
   });
 };
