@@ -1,3 +1,83 @@
-body {
-  background-color: bisque;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+main {
+  /* border: 1px solid red; */
+  max-width: 40em;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 3px 8px 2px rgba(181, 181, 181, 0.5);
+}
+
+main a {
+  text-decoration: none;
+  color: rgba(99, 99, 99, 0.5);
+}
+
+section.todo-header {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  border-bottom: 1px solid rgb(235, 235, 235);
+}
+
+section.todo-header h1 {
+  font-weight: 300;
+  font-size: 22px;
+}
+
+section.todo-header a svg {
+  width: 24px;
+  height: 24px;
+}
+
+form#form {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 10px;
+  border-bottom: 1px solid rgb(235, 235, 235);
+}
+
+form#form div.form-input input.input-control {
+  padding: 8px;
+  border: none;
+  min-width: 30em;
+}
+
+form#form div.form-input input.input-control:focus {
+  border: none;
+  outline: none;
+}
+
+li.todo-item a svg {
+  width: 24px;
+  height: 24px;
+}
+
+#form > a > svg {
+  width: 24px;
+  height: 24px;
+}
+
+li.todo-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  border-bottom: 1px solid rgb(235, 235, 235);
+}
+
+div.btn-wrapper button {
+  display: block;
+  width: 100%;
+  padding: 15px;
+  border: none;
+  background-color: rgb(248, 248, 248);
+  cursor: pointer;
 }
