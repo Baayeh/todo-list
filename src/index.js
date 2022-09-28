@@ -1,44 +1,49 @@
-import './style.css';
+import Todo from './modules/TodoClass.js';
+import Methods from './modules/MethodsClass.js';
+import { form, todoList } from './modules/DOMElements.js';
 
-const todoList = document.querySelector('.todo-list');
+document.addEventListener('DOMContentLoaded', Methods.getTodos());
 
-const todos = [
-  {
-    description: 'wash the dishes',
-    completed: false,
-    index: 0,
-  },
-  {
-    description: 'completed the todo list',
-    completed: false,
-    index: 1,
-  },
-];
+form.addEventListener('submit', (e) => {
+  e.preventDefault();
 
-// create element for each todo list item
-const createElement = (todo) => {
-  const item = document.createElement('li');
-  item.className = 'todo-item';
-  item.setAttribute('key', todo.index);
-  item.innerHTML = `<div class="form-control">
-      <input type="checkbox" name="item1" id="item1" ${
-  todo.completed ? 'checked' : ''
-}>
-      <label for="item1">${todo.description}</label>
-  </div>
-  <a href="#" type="button">
-      <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z"></path></svg>
-  </a>`;
+  const [todo] = form.elements;
 
-  todoList.appendChild(item);
-};
+  const index = Methods.todos.length + 1;
+  const description = todo.value;
+  const completed = false;
 
-// Display the list in the browser
-const displayTodoList = () => {
-  const sortedTodos = todos.sort((a, b) => a.index - b.index);
-  sortedTodos.forEach((todo) => {
-    createElement(todo);
+  const newTodo = new Todo(index, description, completed);
+
+  Methods.addTodo(newTodo);
+
+  Methods.createElement(newTodo);
+  form.reset();
+});
+
+const lis = Methods.getAll();
+
+const resetStyle = () => {
+  lis.forEach((li) => {
+    const inputField = li.firstElementChild.lastElementChild;
+    inputField.addEventListener('blur', () => {
+      li.style.backgroundColor = 'white';
+      inputField.setAttribute('readonly', true);
+    });
   });
 };
 
-document.addEventListener('DOMContentLoaded', displayTodoList);
+todoList.addEventListener('click', (e) => {
+  resetStyle();
+  if (e.target.tagName === 'I') {
+    // eslint-disable-next-line no-unused-vars
+    const id = e.target.parentElement.getAttribute('key');
+
+    const formControl = e.target.parentElement.previousElementSibling;
+    const formInput = formControl.lastElementChild;
+    formInput.removeAttribute('readonly');
+    formInput.focus();
+    const parentOfFormControl = formControl.parentElement;
+    parentOfFormControl.style.backgroundColor = 'rgba(251, 251, 177, 0.508)';
+  }
+});
