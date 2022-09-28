@@ -1,3 +1,4 @@
+import './style.css';
 import Todo from './modules/TodoClass.js';
 import Methods from './modules/MethodsClass.js';
 import { form, todoList } from './modules/DOMElements.js';
