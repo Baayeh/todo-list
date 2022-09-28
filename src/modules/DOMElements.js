@@ -1,10 +1,7 @@
 const todoList = document.querySelector('.todo-list');
-const li = document.querySelector('.todo-item');
-const input = document.querySelector('.list-input');
 const form = document.querySelector('#form');
-const toggleBtn = document.querySelector('.toggleBtn');
 const msg = document.querySelector('.no-books');
 
 export {
-  todoList, form, msg, toggleBtn, li, input,
+  todoList, form, msg,
 };
