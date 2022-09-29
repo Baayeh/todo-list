@@ -4,7 +4,6 @@
  Todo List with webpack
 
 > We created this project using ES6 concepts
-> Functionalities of project :https://github.com/Baayeh/todo-list/pull/1
 - Create a collection of todo lists
 - Add todo
 - Remove todo
@@ -19,7 +18,7 @@
 
 
 ## Live Demo
-> No live demo yet
+> [TODO APP](https://baayeh.github.io/todo-list/)
 
 ## Getting Started
 
