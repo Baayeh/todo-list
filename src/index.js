@@ -1,44 +1,79 @@
-import './style.css';
+import Todo from './modules/TodoClass.js';
+import Methods from './modules/MethodsClass.js';
+import { form, todoList, updateForm } from './modules/DOMElements.js';
 
-const todoList = document.querySelector('.todo-list');
+document.addEventListener('DOMContentLoaded', Methods.getTodos());
 
-const todos = [
-  {
-    description: 'wash the dishes',
-    completed: false,
-    index: 0,
-  },
-  {
-    description: 'completed the todo list',
-    completed: false,
-    index: 1,
-  },
-];
+let activeKey = null;
 
-// create element for each todo list item
-const createElement = (todo) => {
-  const item = document.createElement('li');
-  item.className = 'todo-item';
-  item.setAttribute('key', todo.index);
-  item.innerHTML = `<div class="form-control">
-      <input type="checkbox" name="item1" id="item1" ${
-  todo.completed ? 'checked' : ''
-}>
-      <label for="item1">${todo.description}</label>
-  </div>
-  <a href="#" type="button">
-      <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z"></path></svg>
-  </a>`;
+form.addEventListener('submit', (e) => {
+  e.preventDefault();
 
-  todoList.appendChild(item);
-};
+  const [todo] = form.elements;
 
-// Display the list in the browser
-const displayTodoList = () => {
-  const sortedTodos = todos.sort((a, b) => a.index - b.index);
-  sortedTodos.forEach((todo) => {
-    createElement(todo);
+  const index = Methods.todos.length + 1;
+  const description = todo.value;
+  const completed = false;
+
+  const newTodo = new Todo(index, description, completed);
+
+  Methods.addTodo(newTodo);
+
+  form.reset();
+  Methods.createElement(newTodo);
+});
+
+const lis = Methods.getAll();
+
+todoList.addEventListener('click', (e) => {
+  // SET BACKGROUND COLOR OF TODO ITEM AND REPLACE TOGGLE BTN WITH DELETE BTN
+  if (e.target.tagName === 'INPUT') {
+    // eslint-disable-next-line no-use-before-define
+    resetStyle();
+    const li = e.target.parentElement.parentElement;
+    li.style.backgroundColor = 'rgba(251, 251, 177, 0.508)';
+    const anchorTag = li.lastElementChild;
+
+    activeKey = anchorTag.parentElement.getAttribute('key');
+
+    // create delete button
+    const a = document.createElement('a');
+    a.setAttribute('class', 'deleteBtn');
+    a.setAttribute('type', 'button');
+    a.setAttribute('href', '#');
+    a.innerHTML = '<i class="fa-solid fa-trash"></i>';
+
+    li.replaceChild(a, anchorTag);
+  }
+
+  // REMOVE TODO ITEM
+  if (e.target.parentElement.classList.contains('deleteBtn')) {
+    const anchorTag = e.target.parentElement;
+    const key = anchorTag.parentElement.getAttribute('key');
+    Methods.removeTodo(key);
+
+    anchorTag.parentElement.remove();
+    window.location.reload();
+  }
+});
+
+// RESET BACKGROUND COLOR OF LI AND REPLACE DELETE BTN WITH TOGGLE BTN
+const resetStyle = () => {
+  lis.forEach((li) => {
+    li.style.backgroundColor = 'white';
+    // create dots button
+    const anchorTag = li.lastElementChild;
+    const a = document.createElement('a');
+    a.setAttribute('class', 'toggleBtn');
+    a.setAttribute('type', 'button');
+    a.setAttribute('href', '#');
+    a.innerHTML = '<i class="fa-solid fa-ellipsis-vertical"></i>';
+    li.replaceChild(a, anchorTag);
   });
 };
 
-document.addEventListener('DOMContentLoaded', displayTodoList);
+// UPDATE TODO
+updateForm.addEventListener('change', (e) => {
+  const newValue = e.target.value;
+  Methods.updateTodo(activeKey, newValue);
+});

@@ -4,8 +4,9 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="./style.css">
-    <title>Document</title>
+    <title>To Do List</title>
 </head>
 <body>
     <main class="content">
@@ -15,22 +16,19 @@
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
             </a>
         </section>
-
-        <!-- Form to add To do -->
         <form id="form">
             <div class="form-input">
                 <label for="todo" hidden></label>
                 <input type="text" class="input-control" name="todo" placeholder="Add to your list">
             </div>
-            <a href="#" type="button">
+            <a href="#" type="submit">
                 <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M3 3a1 1 0 011 1v12a1 1 0 11-2 0V4a1 1 0 011-1zm7.707 3.293a1 1 0 010 1.414L9.414 9H17a1 1 0 110 2H9.414l1.293 1.293a1 1 0 01-1.414 1.414l-3-3a1 1 0 010-1.414l3-3a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
             </a>
         </form>
-
-        <!-- Display To do list here -->
-        <ul class="todo-list"></ul>
-
-        <!-- Clear all completed tasks -->
+        <p class="no-books"></p>
+        <form class="updateForm">
+            <ul class="todo-list"></ul>
+        </form>
         <div class="btn-wrapper">
             <button class="clearBtn" type="button">Clear all completed</button>
         </div>

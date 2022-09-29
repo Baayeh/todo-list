@@ -73,6 +73,28 @@ li.todo-item {
   border-bottom: 1px solid rgb(235, 235, 235);
 }
 
+div.form-control {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+div.form-control input.list-input {
+  min-width: 30em;
+  padding: 8px;
+  border: none;
+}
+
+div.form-control input.list-input:focus {
+  border: none;
+  outline: none;
+  background-color: transparent;
+}
+
+.removeBtn {
+  display: none;
+}
+
 div.btn-wrapper button {
   display: block;
   width: 100%;
