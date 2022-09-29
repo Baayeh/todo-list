@@ -27,10 +27,12 @@ export default class Methods {
     item.className = 'todo-item';
     item.setAttribute('key', todo.index);
     item.innerHTML = `<div class="form-control">
-    <input type="checkbox" name="item-${todo.index}" ${
+    <input type="checkbox" name="item-${todo.index}" class="checkInput" ${
       todo.completed ? 'checked' : ''
     }>
-    <input type="text" class="list-input" value="${todo.description}">
+    <input type="text" class="list-input ${
+      todo.completed ? 'strikethrough' : ''
+    }" value="${todo.description}">
 </div>
 <a href="#" type="button" class="toggleBtn">
   <i class="fa-solid fa-ellipsis-vertical"></i>
@@ -56,15 +58,18 @@ export default class Methods {
     localStorage.setItem('todos', JSON.stringify(this.todos));
   };
 
-  // Update Todo
-  static updateTodo = (key, value) => {
+  static updateTodo = (key, value, completedValue) => {
     const result = this.todos.find(
       (todo) => String(key) === String(todo.index),
     );
 
     result.description = value;
+    result.completed = completedValue;
 
     localStorage.setItem('todos', JSON.stringify(this.todos));
+
+    todoList.innerHTML = '';
+    this.displayTodoList();
   };
 
   // Remove a todo from the array
@@ -92,6 +97,26 @@ export default class Methods {
 
     todoList.innerHTML = '';
 
+    this.displayTodoList();
+  };
+
+  static removeAllCompleted = () => {
+    const uncompletedTodos = this.todos.filter(
+      (todo) => todo.completed === false,
+    );
+    this.todos = uncompletedTodos;
+
+    if (uncompletedTodos.length) {
+      localStorage.setItem('todos', JSON.stringify(uncompletedTodos));
+    } else {
+      msg.textContent = 'All Tasks Completed';
+      msg.style.textAlign = 'center';
+      msg.style.padding = '10px';
+      msg.style.display = 'block';
+      localStorage.clear();
+    }
+
+    todoList.innerHTML = '';
     this.displayTodoList();
   };
 

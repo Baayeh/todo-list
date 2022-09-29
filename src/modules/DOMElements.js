@@ -5,7 +5,8 @@ const form = document.querySelector('#form');
 const toggleBtn = document.querySelector('.toggleBtn');
 const msg = document.querySelector('.no-books');
 const updateForm = document.querySelector('.updateForm');
+const clearBtn = document.querySelector('.clearBtn');
 
 export {
-  todoList, form, msg, toggleBtn, li, input, updateForm,
+  todoList, form, msg, toggleBtn, li, input, updateForm, clearBtn,
 };

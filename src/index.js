@@ -1,6 +1,8 @@
 import Todo from './modules/TodoClass.js';
 import Methods from './modules/MethodsClass.js';
-import { form, todoList, updateForm } from './modules/DOMElements.js';
+import {
+  form, todoList, updateForm, clearBtn,
+} from './modules/DOMElements.js';
 
 document.addEventListener('DOMContentLoaded', Methods.getTodos());
 
@@ -74,6 +76,21 @@ const resetStyle = () => {
 
 // UPDATE TODO
 updateForm.addEventListener('change', (e) => {
-  const newValue = e.target.value;
-  Methods.updateTodo(activeKey, newValue);
+  let completedValue = false;
+
+  if (e.target.classList.contains('checkInput')) {
+    const { value } = e.target.nextElementSibling;
+    // eslint-disable-next-line no-unused-expressions
+    e.target.checked ? (completedValue = true) : (completedValue = false);
+    Methods.updateTodo(activeKey, value, completedValue);
+  }
+  if (e.target.classList.contains('list-input')) {
+    const newValue = e.target.value;
+    Methods.updateTodo(activeKey, newValue, completedValue);
+  }
+});
+
+// Remove all completed todo items
+clearBtn.addEventListener('click', () => {
+  Methods.removeAllCompleted();
 });
