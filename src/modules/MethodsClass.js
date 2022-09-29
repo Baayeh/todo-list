@@ -1,10 +1,13 @@
 import { todoList, msg } from './DOMElements.js';
 
-const focus = false;
-
 export default class Methods {
   static todos = [];
 
+  /** ************************
+        MAIN FUNCTIONS
+  ************************** */
+
+  // Get All Todos from LocalStorage
   static getTodos() {
     const parsedTodos = JSON.parse(localStorage.getItem('todos'));
     if (parsedTodos) {
@@ -24,17 +27,15 @@ export default class Methods {
     item.className = 'todo-item';
     item.setAttribute('key', todo.index);
     item.innerHTML = `<div class="form-control">
-    <input type="checkbox" name="item1" ${
+    <input type="checkbox" name="item-${todo.index}" ${
       todo.completed ? 'checked' : ''
     }>
-    <input type="text" class="list-input" value="${todo.description}" ${focus ? '' : 'readonly'}>
+    <input type="text" class="list-input" value="${todo.description}">
 </div>
 <a href="#" type="button" class="toggleBtn">
   <i class="fa-solid fa-ellipsis-vertical"></i>
 </a>
-<a href="#" type="button" class="removeBtn">
-    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd"></path></svg>
-</a>`;
+`;
 
     todoList.appendChild(item);
     msg.textContent = '';
@@ -55,10 +56,52 @@ export default class Methods {
     localStorage.setItem('todos', JSON.stringify(this.todos));
   };
 
+  // Update Todo
+  static updateTodo = (key, value) => {
+    const result = this.todos.find(
+      (todo) => String(key) === String(todo.index),
+    );
+
+    result.description = value;
+
+    localStorage.setItem('todos', JSON.stringify(this.todos));
+  };
+
+  // Remove a todo from the array
+  static removeTodo = (key) => {
+    const result = this.todos.filter(
+      (todo) => String(key) !== String(todo.index),
+    );
+
+    const updatedTodos = result.map((todo, Oldindex) => ({
+      ...todo,
+      index: Oldindex + 1,
+    }));
+
+    this.todos = updatedTodos;
+
+    localStorage.setItem('todos', JSON.stringify(updatedTodos));
+
+    if (!updatedTodos.length) {
+      msg.textContent = 'Ooops!! There are no todos available';
+      msg.style.textAlign = 'center';
+      msg.style.padding = '10px';
+      msg.style.display = 'block';
+      localStorage.clear();
+    }
+
+    todoList.innerHTML = '';
+
+    this.displayTodoList();
+  };
+
+  /** ************************
+      END OF  MAIN FUNCTIONS
+  ************************** */
+
+  // Get All li tags
   static getAll = () => {
     const lis = document.querySelectorAll('.todo-item');
     return lis;
-  }
+  };
 }
-
-export { focus };

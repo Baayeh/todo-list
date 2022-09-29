@@ -1,8 +1,10 @@
 import Todo from './modules/TodoClass.js';
 import Methods from './modules/MethodsClass.js';
-import { form, todoList } from './modules/DOMElements.js';
+import { form, todoList, updateForm } from './modules/DOMElements.js';
 
 document.addEventListener('DOMContentLoaded', Methods.getTodos());
+
+let activeKey = null;
 
 form.addEventListener('submit', (e) => {
   e.preventDefault();
@@ -17,33 +19,61 @@ form.addEventListener('submit', (e) => {
 
   Methods.addTodo(newTodo);
 
-  Methods.createElement(newTodo);
   form.reset();
+  Methods.createElement(newTodo);
 });
 
 const lis = Methods.getAll();
 
+todoList.addEventListener('click', (e) => {
+  // SET BACKGROUND COLOR OF TODO ITEM AND REPLACE TOGGLE BTN WITH DELETE BTN
+  if (e.target.tagName === 'INPUT') {
+    // eslint-disable-next-line no-use-before-define
+    resetStyle();
+    const li = e.target.parentElement.parentElement;
+    li.style.backgroundColor = 'rgba(251, 251, 177, 0.508)';
+    const anchorTag = li.lastElementChild;
+
+    activeKey = anchorTag.parentElement.getAttribute('key');
+
+    // create delete button
+    const a = document.createElement('a');
+    a.setAttribute('class', 'deleteBtn');
+    a.setAttribute('type', 'button');
+    a.setAttribute('href', '#');
+    a.innerHTML = '<i class="fa-solid fa-trash"></i>';
+
+    li.replaceChild(a, anchorTag);
+  }
+
+  // REMOVE TODO ITEM
+  if (e.target.parentElement.classList.contains('deleteBtn')) {
+    const anchorTag = e.target.parentElement;
+    const key = anchorTag.parentElement.getAttribute('key');
+    Methods.removeTodo(key);
+
+    anchorTag.parentElement.remove();
+    window.location.reload();
+  }
+});
+
+// RESET BACKGROUND COLOR OF LI AND REPLACE DELETE BTN WITH TOGGLE BTN
 const resetStyle = () => {
   lis.forEach((li) => {
-    const inputField = li.firstElementChild.lastElementChild;
-    inputField.addEventListener('blur', () => {
-      li.style.backgroundColor = 'white';
-      inputField.setAttribute('readonly', true);
-    });
+    li.style.backgroundColor = 'white';
+    // create dots button
+    const anchorTag = li.lastElementChild;
+    const a = document.createElement('a');
+    a.setAttribute('class', 'toggleBtn');
+    a.setAttribute('type', 'button');
+    a.setAttribute('href', '#');
+    a.innerHTML = '<i class="fa-solid fa-ellipsis-vertical"></i>';
+    li.replaceChild(a, anchorTag);
   });
 };
 
-todoList.addEventListener('click', (e) => {
-  resetStyle();
-  if (e.target.tagName === 'I') {
-    // eslint-disable-next-line no-unused-vars
-    const id = e.target.parentElement.getAttribute('key');
-
-    const formControl = e.target.parentElement.previousElementSibling;
-    const formInput = formControl.lastElementChild;
-    formInput.removeAttribute('readonly');
-    formInput.focus();
-    const parentOfFormControl = formControl.parentElement;
-    parentOfFormControl.style.backgroundColor = 'rgba(251, 251, 177, 0.508)';
-  }
+// UPDATE TODO
+updateForm.addEventListener('change', (e) => {
+  const newValue = e.target.value;
+  Methods.updateTodo(activeKey, newValue);
 });
