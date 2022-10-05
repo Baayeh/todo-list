@@ -63,7 +63,7 @@ export default class Methods {
       (todo) => String(key) === String(todo.index),
     );
 
-    result.description = value;
+    result.description = (value !== '') ? value : result.description;
     result.completed = completedValue;
 
     localStorage.setItem('todos', JSON.stringify(this.todos));
@@ -107,7 +107,11 @@ export default class Methods {
     this.todos = uncompletedTodos;
 
     if (uncompletedTodos.length) {
-      localStorage.setItem('todos', JSON.stringify(uncompletedTodos));
+      const updatedTodos = uncompletedTodos.map((todo, Oldindex) => ({
+        ...todo,
+        index: Oldindex + 1,
+      }));
+      localStorage.setItem('todos', JSON.stringify(updatedTodos));
     } else {
       msg.textContent = 'All Tasks Completed';
       msg.style.textAlign = 'center';

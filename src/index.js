@@ -19,16 +19,18 @@ form.addEventListener('submit', (e) => {
 
   const newTodo = new Todo(index, description, completed);
 
-  Methods.addTodo(newTodo);
+  if (newTodo.description !== '') {
+    Methods.addTodo(newTodo);
 
-  form.reset();
-  Methods.createElement(newTodo);
+    form.reset();
+    Methods.createElement(newTodo);
+  }
 });
 
 const lis = Methods.getAll();
 
+// SET BACKGROUND COLOR OF TODO ITEM AND REPLACE TOGGLE BTN WITH DELETE BTN
 todoList.addEventListener('click', (e) => {
-  // SET BACKGROUND COLOR OF TODO ITEM AND REPLACE TOGGLE BTN WITH DELETE BTN
   if (e.target.tagName === 'INPUT') {
     // eslint-disable-next-line no-use-before-define
     resetStyle();
@@ -52,10 +54,10 @@ todoList.addEventListener('click', (e) => {
   if (e.target.parentElement.classList.contains('deleteBtn')) {
     const anchorTag = e.target.parentElement;
     const key = anchorTag.parentElement.getAttribute('key');
-    Methods.removeTodo(key);
 
     anchorTag.parentElement.remove();
-    window.location.reload();
+
+    Methods.removeTodo(key);
   }
 });
 
@@ -86,7 +88,12 @@ updateForm.addEventListener('change', (e) => {
   }
   if (e.target.classList.contains('list-input')) {
     const newValue = e.target.value;
-    Methods.updateTodo(activeKey, newValue, completedValue);
+    if (newValue !== '') {
+      Methods.updateTodo(activeKey, newValue, completedValue);
+    } else {
+      todoList.innerHTML = '';
+      Methods.displayTodoList();
+    }
   }
 });
 
